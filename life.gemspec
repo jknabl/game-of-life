@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'life/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "Jason's Game of Life"
+  spec.name          = "game-of-life"
   spec.version       = Life::VERSION
   spec.authors       = ["Jason Knabl"]
   spec.email         = ["jason.knabl@gmail.com"]
@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency 'pry', '~> 0.11.1'
 end
