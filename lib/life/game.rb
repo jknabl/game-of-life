@@ -41,6 +41,10 @@ class Game
         n.times{ play_turn }
     end
 
+    def play_turns_with_display(n)
+        @display_strategy.display_for_turns(n)
+    end
+
     def cell_at(x, y)
         return grid[y][x] if ((x < (width)) && (y < (height)))
         nil
