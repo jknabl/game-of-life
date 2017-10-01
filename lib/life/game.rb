@@ -27,7 +27,8 @@ class Game
     def alive_cell_coordinates
         # Returns [x, y] pairs for cells that are alive. This is convenient as input to an external UI.
         output = []
-        grid.flat_map{ |cell| (output << cell) if cell.alive? } 
+        grid.flatten.each{ |cell| (output << cell.to_coordinates) if cell.alive? } 
+        output
     end
 
     def play_turn
@@ -46,7 +47,7 @@ class Game
     end
 
     def cell_at(x, y)
-        return grid[y][x] if ((x < (width)) && (y < (height)))
+        return grid[(height - 1) - y][x] if ((x < (width)) && (y < (height)))
         nil
     end
 
@@ -71,9 +72,9 @@ class Game
 
     def grid_input_to_cells(grid_input)
         cell_output = Array.new(grid_input.length){ [] }
-        grid_input.each_with_index do |sub_array, y|
-            sub_array.each_with_index do |cell_value, x|
-                cell_output[y][x] = Cell.new((cell_value == 1), self, x, y)
+        grid_input.each_with_index do |sub_array, i|
+            sub_array.each_with_index do |cell_value, j|
+                cell_output[i][j] = Cell.new((cell_value == 1), self, j, ((grid_input.first.length - 1) -  i))
             end
         end
         cell_output

@@ -80,35 +80,35 @@ class Cell
         else
             [
                 @game.cell_at((x-1), y),
-                @game.cell_at((x-1), (y+1)) 
+                @game.cell_at((x-1), (y+1))
             ].compact
         end
     end
 
-    def top_row_neighbors
-        if on_top_edge_of_grid?
+    def bottom_row_neighbors
+        if on_bottom_edge_of_grid?
             []
         else
             [
                 @game.cell_at(x, (y-1)), 
-                @game.cell_at((x+1), (y-1))
+                @game.cell_at(x+1, (y-1))
             ].compact
         end
     end
 
-    def top_left_corner_neighbor
-        ((on_left_edge_of_grid? || on_top_edge_of_grid?)) ? [] : [@game.cell_at((x-1), (y-1))]
+    def bottom_left_corner_neighbor
+        ((on_left_edge_of_grid? || on_bottom_edge_of_grid?)) ? [] : [@game.cell_at((x-1), (y-1))]
     end
 
     def edge_and_corner_neighbors
-        left_column_neighbors + top_row_neighbors + top_left_corner_neighbor
+        left_column_neighbors + bottom_row_neighbors + bottom_left_corner_neighbor
     end
 
     def on_left_edge_of_grid?
         x == 0
     end
 
-    def on_top_edge_of_grid?
+    def on_bottom_edge_of_grid?
         y == 0
     end
 end
