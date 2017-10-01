@@ -11,7 +11,7 @@ class Game
         @display_strategy.display
     end
 
-    def input_style_output
+    def to_input_format_a
         # Returns a 2D array where each sub-array represents a row of values along the same y axis.
         output = []
         grid.each_with_index do |row, i|
