@@ -2,6 +2,7 @@ class Game
     attr_reader :grid
 
     def initialize(grid, display_strategy=nil)
+        validate_input_array(grid)
         @grid = grid_input_to_cells(grid)
         @display_strategy = display_strategy || ::TerminalDisplayStrategy.new(self)
     end
@@ -43,5 +44,10 @@ class Game
     def validate_input_array(input_array)
         raise 'Input must be an Array.' unless input_array.is_a? Array
         raise 'Input must be a non-empty 2D Array.' unless !input_array.empty?
+
+        subarray_lengths = input_array.map{ |sub| sub.length }.uniq.length
+        unless subarray_lengths == 1
+            raise 'Input must be an Array of Arrays, each of which has length N.'
+        end
     end
 end
