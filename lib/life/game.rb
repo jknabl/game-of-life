@@ -17,7 +17,7 @@ class Game
         grid.each_with_index do |row, i|
             output << []
             row.each do |cell, j|
-                alive_value = cell.alive? ? '1' : '0'
+                alive_value = cell.alive? ? 1 : 0
                 output[i] << alive_value
             end
         end
@@ -58,15 +58,25 @@ class Game
         grid.first.length
     end
 
+    class << self
+        def test_game(seed, number_of_iterations, expected_state)
+            # This method is implemented as specified in the challenge instructions. 
+            game = Game.new(seed)
+            game.play_turns(number_of_iterations)
+            expected_state == game.to_input_format_a
+        end
+    end
+
     private
 
     def grid_input_to_cells(grid_input)
+        cell_output = Array.new(grid_input.length){ [] }
         grid_input.each_with_index do |sub_array, y|
             sub_array.each_with_index do |cell_value, x|
-                grid_input[y][x] = Cell.new((cell_value == 1), self, x, y)
+                cell_output[y][x] = Cell.new((cell_value == 1), self, x, y)
             end
         end
-        grid_input
+        cell_output
     end
 
     def validate_input_array(input_array)

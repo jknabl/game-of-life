@@ -63,4 +63,27 @@ describe Game do
             end
         end
     end
+
+    describe 'Game.test_game' do 
+        before do 
+            @even_state = [[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]]
+            @odd_state = [[0,0,0,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,1,0,0], [0,0,0,0,0]]
+        end
+
+        it 'does not match seed state after 1 iteration' do 
+            expect(Game.test_game(@even_state, 1, @even_state)).to be false
+        end
+
+        it 'matches seed state after 2 iterations' do 
+            expect(Game.test_game(@even_state, 2, @even_state)).to be true
+        end
+
+        it 'does not match seed state after 3 iterations' do 
+            expect(Game.test_game(@even_state, 3, @even_state)).to be false
+        end
+
+        it 'matches seed state after 4 iterations' do 
+            expect(Game.test_game(@even_state, 4, @even_state)).to be true
+        end
+    end
 end
