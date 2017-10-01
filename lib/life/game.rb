@@ -11,10 +11,34 @@ class Game
         @display_strategy.display
     end
 
-    def next_state
-        grid.flatten.each do |cell| 
-            cell.set_next_state
+    def input_style_output
+        # Returns a 2D array where each sub-array represents a row of values along the same y axis.
+        output = []
+        grid.each_with_index do |row, i|
+            output << []
+            row.each do |cell, j|
+                alive_value = cell.alive? ? '1' : '0'
+                output[i] << alive_value
+            end
         end
+        output
+    end
+
+    def alive_cell_coordinates
+        # Returns [x, y] pairs for cells that are alive. This is convenient as input to an external UI.
+        output = []
+        grid.flat_map{ |cell| (output << cell) if cell.alive? } 
+    end
+
+    def play_turn
+        alive_cells, dead_cells = [], []
+        grid.flatten.each{ |cell| cell.next_state ? (alive_cells << cell) : (dead_cells << cell) }
+        alive_cells.each{ |cell| cell.give_life }
+        dead_cells.each{ |cell| cell.kill }
+    end
+
+    def play_turns(n)
+        n.times{ play_turn }
     end
 
     def cell_at(x, y)

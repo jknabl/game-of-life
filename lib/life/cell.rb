@@ -1,6 +1,6 @@
 class Cell
     attr_reader :x, :y, :game
-    
+
     def initialize(alive=false, game, x, y)
         @x = x
         @y = y
@@ -42,8 +42,18 @@ class Cell
         neighbors - alive_neighbors
     end
 
+    def next_state
+        return false if (underpopulated? || overpopulated?)
+        return true if (reproductive? || healthy?)
+        @alive
+    end
+
     def set_next_state
         @alive = next_state
+    end
+
+    def to_coordinates
+        [x, y]
     end
 
     private 
@@ -62,12 +72,6 @@ class Cell
 
     def healthy?
         alive? && ([2,3].include? alive_neighbors.length)
-    end
-
-    def next_state
-        return false if (underpopulated? || overpopulated?)
-        return true if (reproductive? || healthy?)
-        @alive
     end
 
     def left_column_neighbors
