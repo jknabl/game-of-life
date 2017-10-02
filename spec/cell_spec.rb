@@ -25,7 +25,7 @@ describe Cell do
             end
         end
 
-        context 'when the cell is in the top row of the grid' do 
+        context 'when the cell is in the bottom row of the grid' do 
             before do 
                 @cell = @game.cell_at(1, 0)
             end
@@ -43,7 +43,7 @@ describe Cell do
             end
         end
 
-        context 'when the cell is at the top left corner of the grid' do 
+        context 'when the cell is at the bottom left corner of the grid' do 
             before do 
                 @cell = @game.cell_at(0, 0)
             end
