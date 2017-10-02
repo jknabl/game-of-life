@@ -3,6 +3,15 @@ class Game
   attr_writer :display_strategy
 
   def initialize(grid, display_strategy=TerminalDisplayStrategy)
+    # A Game is initialized with a 2D array. The inner arrays represent rows 
+    # on a grid display, ordered descending by y-axis value. 
+    #
+    # `display_strategy` allows you to specify an output algorithm. The two available 
+    # are `TerminalDisplayStrategy`, which prints output to terminal, and 
+    # `FileDisplayStrategy`, which prints output to a file. You can implement your 
+    # own display strategy by subclassing DisplayStrategy and implementing a #display
+    # method on the class. 
+
     validate_input_array(grid)
     @grid = grid_input_to_cells(grid)
     @display_strategy = display_strategy.new(self)
@@ -14,6 +23,34 @@ class Game
 
   def play_turns_with_display(n)
     @display_strategy.display_for_turns(n)
+  end
+
+  def height
+    grid.length
+  end
+
+  def width 
+    grid.first.length
+  end
+
+  def cell_at(x, y)
+    return nil if (x < 0 || y < 0 || (x > (width - 1)) || (y > (height - 1)))
+    grid[(height - 1) - y][x] 
+  end
+
+  def play_turn
+    # Why not just iterate over each cell and kill/give life as encountered? Because modifying a 
+    # cell's alive value will affect how other cells calculate their own alive values. We need 
+    # to calculate aliveness based on a static snapshot of the board. So we have to collect and
+    # then operate in bulk. 
+    alive_cells, dead_cells = [], []
+    grid.flatten.each{ |cell| cell.next_state ? (alive_cells << cell) : (dead_cells << cell) }
+    alive_cells.each{ |cell| cell.give_life }
+    dead_cells.each{ |cell| cell.kill }
+  end
+
+  def play_turns(n)
+    n.times{ play_turn }
   end
 
   def to_input_format_a
@@ -34,37 +71,9 @@ class Game
     end
   end
 
-  def alive_cell_coordinates
+  def alive_cell_coordinates_to_a
     # Returns [x, y] pairs for cells that are alive. This is convenient as input to an external UI.
     grid.flatten.collect{ |cell| cell.to_coordinates if cell.alive? }
-  end
-
-  def play_turn
-    # Why not just iterate over each cell and kill/give life as encountered? Because modifying a 
-    # cell's alive value will affect how other cells calculate their own alive values. We need 
-    # to calculate aliveness based on a static snapshot of the board. So we have to collect and
-    # then operate in bulk. 
-    alive_cells, dead_cells = [], []
-    grid.flatten.each{ |cell| cell.next_state ? (alive_cells << cell) : (dead_cells << cell) }
-    alive_cells.each{ |cell| cell.give_life }
-    dead_cells.each{ |cell| cell.kill }
-  end
-
-  def play_turns(n)
-    n.times{ play_turn }
-  end
-
-  def cell_at(x, y)
-    return nil if (x < 0 || y < 0 || (x > (width - 1)) || (y > (height - 1)))
-    grid[(height - 1) - y][x] 
-  end
-
-  def height
-    grid.length
-  end
-
-  def width 
-    grid.first.length
   end
 
   class << self

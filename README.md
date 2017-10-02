@@ -16,9 +16,15 @@ reproduction.
 
 The code is structured according to rubygems conventions. Most of the interesting stuff -- including the `Game`, `Cell`, and display classes -- is in `lib/life`. There is also a test script located outside the lib directory, at `bin/test`. Instructions on testing are below.
 
+### Why a gem? 
+
+Bundling up this program as a gem makes it much easier to distribute and share. Building and installing a gem is less hassle for a user than running a patchwork of custom scripts. 
+
+Importantly, it is extremely easy to drop this gem into e.g. a Rails project. A simple `require 'game-of-life', github: 'https://github.com/jknabl/game-of-life.git'` in the `Gemfile` does the trick. Then we can rely on the core logic in the gem to handle all of the 'business logic' and avoid having to re-write code. 
+
 ## Installing the downloaded gem
 
-This gem was developed and tested in a UNIX-like environment, using ruby 2.3.1. 
+This gem was developed and tested in a UNIX-like environment, using ruby 2.3.1. You will need a working ruby installed in order to follow the steps below.s
 
 To install on e.g. MacOSX or Linux, do:
 
