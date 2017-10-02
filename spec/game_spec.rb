@@ -88,6 +88,7 @@ describe Game do
             end
 
             it 'matches expected state after 1 turn' do 
+                binding.pry
                 expect(Game.test_game(
                     [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ], 
                     1, 

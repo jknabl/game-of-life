@@ -8,3 +8,5 @@
 /spec/reports/
 /tmp/
 vendor/*
+game_of_life_output.txt
+*.swp

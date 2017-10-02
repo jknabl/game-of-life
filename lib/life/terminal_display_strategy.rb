@@ -1,9 +1,4 @@
-class TerminalDisplayStrategy
-    def initialize(game)
-        @game = game
-        @grid = game.grid
-    end
-
+class TerminalDisplayStrategy < DisplayStrategy
     def display
         puts `clear`
         val = @grid.map{ |row| row.map{ |cell| cell.alive? ? 'o' : '.' }.join('') }

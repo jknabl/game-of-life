@@ -1,5 +1,6 @@
 class Game
     attr_reader :grid
+    attr_writer :display_strategy
 
     def initialize(grid, display_strategy=nil)
         validate_input_array(grid)
@@ -9,6 +10,10 @@ class Game
 
     def display_grid
         @display_strategy.display
+    end
+
+    def play_turns_with_display(n)
+        @display_strategy.display_for_turns(n)
     end
 
     def to_input_format_a
@@ -42,9 +47,7 @@ class Game
         n.times{ play_turn }
     end
 
-    def play_turns_with_display(n)
-        @display_strategy.display_for_turns(n)
-    end
+
 
     def cell_at(x, y)
         return nil if (x < 0 || y < 0 || (x > (width - 1)) || (y > (height - 1)))
