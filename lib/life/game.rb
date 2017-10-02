@@ -25,8 +25,10 @@ class Game
     end
 
     def to_input_format_for_iterations_a(n)
+        # Accumulate a hash representing the game state at each iteration up to n. Example: 
+        # {0: [[1,0],[0,0], 1: [[0,0][0,0]] ]}
         (n+1).times.inject({}) do |accum, i|
-            play_turn unless i == 0
+            play_turn unless (i == 0)
             accum[i] = to_input_format_a
             accum
         end
@@ -68,6 +70,16 @@ class Game
     class << self
         def test_game(seed, number_of_iterations, expected_state)
             # This method is implemented as specified in the challenge instructions. 
+            # `seed` and `expected_state` are both 2-D Arrays. Inner arrays represent 
+            # rows on the game grid. Inner arrays should be ordered as though you are 
+            # looking at the game board, with the top row *first* in the array (i.e., 
+            # descending order along the y-axis). Example:
+            # 
+            # [[1,0],[0,1]] corresponds to: 
+            #
+            # 1,0
+            # 0,1
+            
             game = Game.new(seed)
             game.play_turns(number_of_iterations)
             expected_state == game.to_input_format_a

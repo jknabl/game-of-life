@@ -14,7 +14,9 @@ reproduction.
 
 ## Installing the downloaded gem
 
-This gem was developed and tested in a UNIX-like environment. To install on e.g. MacOSX or Linux, do:
+This gem was developed and tested in a UNIX-like environment, using ruby 2.3.1. 
+
+To install on e.g. MacOSX or Linux, do:
 
 ```
 1. cd path/to/life
@@ -51,6 +53,13 @@ The script is located at `./bin/test`; it takes three arguments:
 * *-s*: a string representing the starting array (e.g. `-s "[[1,0],[0,1]]"`)
 * *-n*: an integer representing the number of times to run the game (e.g. `-n 4`)
 * *-e*: a string representing an array representation of the expected end state of the game (e.g. `-e "[[1,0],[0,1]]"`) 
+
+The format for both the seed and expected result arrays is: each inner array represents a row on the game grid. Rows should be ordered as though you were looking at the game board with the top row *first* (i.e., descending by y-axis value). For example, `[[1,0],[0,1]]` corresponds to: 
+
+```
+1,0
+0,1
+``` 
 
 The script prints `true` to the console if the starting array matches the expected output at the end of N iterations; it returns `false` otherwise.
 
@@ -144,7 +153,7 @@ game.display_grid
 .....
 ```
 
-To skip a couple steps and display a sequence of transitions as they happen, do: 
+To skip a couple steps and display an animated sequence of transitions as they happen, do: 
 
 ```
 $ irb
