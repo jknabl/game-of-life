@@ -223,34 +223,43 @@ game.play_turns_with_display(3)
 exit
 
 $ pwd
-/Users/jknabl/Documents/code-projects/life
+/path/to/life
 
-$ cat game_of_life_output.txt
-Iteration 1:
+$ cat /path/to/life/game_of_life_output.txt
+Iteration 0:
 
 .....
 .....
 .ooo.
 .....
+.....
+
+---
+Iteration 1:
+
+.....
+..o..
+..o..
+..o..
 .....
 
 ---
 Iteration 2:
 
 .....
-..o..
-..o..
-..o..
-.....
-
----
-Iteration 3:
-
-.....
 .....
 .ooo.
 .....
 .....
 
 ---
+Iteration 3:
+
+.....
+..o..
+..o..
+..o..
+.....
+
+--
 ```
