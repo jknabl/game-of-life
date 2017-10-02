@@ -47,8 +47,6 @@ class Game
         n.times{ play_turn }
     end
 
-
-
     def cell_at(x, y)
         return nil if (x < 0 || y < 0 || (x > (width - 1)) || (y > (height - 1)))
         grid[(height - 1) - y][x] 

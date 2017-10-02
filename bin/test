@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+require 'life'
+require 'optparse'
+require 'json'
+
+options = {}
+option_parser = OptionParser.new do |opts|
+    opts.on('-s', '--seed=SEED', 'Seed array to initialize a game.') { |v| options[:seed] = JSON.parse(v); }
+    opts.on('-n', '--number_of_iterations=NUM', 'Number of iterations to run the game.') { |v| options[:iterations] = v.to_i }
+    opts.on('-e', '--expected_state=EXPECTED', 'Array representing the expected end state of the game.') { |v| options[:expected] = JSON.parse(v) }
+end
+option_parser.parse!
+
+raise "This program requires all 3 arguments to be passed in: seed array (-s), number of iterations (-n), and expected end state (-e)" if (options[:seed].nil? || options[:iterations].nil? || options[:expected].nil?)
+
+puts Game.test_game(options[:seed], options[:iterations], options[:expected])

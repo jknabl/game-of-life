@@ -10,3 +10,4 @@
 vendor/*
 game_of_life_output.txt
 *.swp
+*.gem
