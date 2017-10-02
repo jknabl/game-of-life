@@ -16,6 +16,8 @@ reproduction.
 
 The code is structured according to rubygems conventions. Most of the interesting stuff -- including the `Game`, `Cell`, and display classes -- is in `lib/life`. There is also a test script located outside the lib directory, at `bin/test`. Instructions on testing are below.
 
+Tests for the main classes and all important functionality are located under `spec/`. 
+
 ### Why a gem? 
 
 Bundling up this program as a gem makes it much easier to distribute and share. Building and installing a gem is less hassle for a user than running a patchwork of custom scripts. 
