@@ -1,9 +1,9 @@
 class Cell
   attr_reader :x, :y, :game
 
-  def initialize(alive=false, game, x, yg)
+  def initialize(alive=false, game, x, y)
     @x = x
-    @y = yg
+    @y = y
     @game = game
     @alive = alive
   end
