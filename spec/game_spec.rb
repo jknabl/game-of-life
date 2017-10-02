@@ -170,17 +170,17 @@ describe Game do
     end
   end
 
-  describe '#alive_cell_coordinates' do 
+  describe '#alive_cell_coordinates_to_a' do 
     before do 
       @game = Game.new([[0,1,0], [1,0,1], [0,1,1]])
     end
 
     it 'returns coordinates of all live cells as [x,y] pairs' do 
-      expect(@game.alive_cell_coordinates).to include(*[ [1,2], [0,1], [2,1], [1,0], [2,0] ])
+      expect(@game.alive_cell_coordinates_to_a).to include(*[ [1,2], [0,1], [2,1], [1,0], [2,0] ])
     end
 
     it 'does not include co-ordinates of dead cells' do 
-      expect(@game.alive_cell_coordinates).to_not include( *@game.grid.flatten.
+      expect(@game.alive_cell_coordinates_to_a).to_not include( *@game.grid.flatten.
       select{ |cell| cell.dead? ? cell.to_coordinates : nil}.compact )
     end
   end
