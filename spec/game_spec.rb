@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Game do   
-
     context 'when given something other than an Array as input' do 
         it 'is invalid' do 
             expect{ Game.new("hello world!") }.to raise_exception 'Input must be an Array.'

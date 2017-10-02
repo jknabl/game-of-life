@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Cell do 
-
     describe 'cell neighbors' do
         before do 
             @game = Game.new([[1,1,1],[1,1,1], [1,1,1]])     

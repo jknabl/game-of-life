@@ -41,9 +41,7 @@ class Game
 
     def alive_cell_coordinates
         # Returns [x, y] pairs for cells that are alive. This is convenient as input to an external UI.
-        output = []
-        grid.flatten.each{ |cell| (output << cell.to_coordinates) if cell.alive? } 
-        output
+        grid.flatten.collect{ |cell| cell.to_coordinates if cell.alive? }
     end
 
     def play_turn
