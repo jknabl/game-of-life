@@ -88,7 +88,6 @@ describe Game do
             end
 
             it 'matches expected state after 1 turn' do 
-                binding.pry
                 expect(Game.test_game(
                     [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ], 
                     1, 
@@ -127,6 +126,21 @@ describe Game do
                     [ [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0] ]
                 ))
             end
+        end
+    end
+
+    describe '#to_input_format_for_iterations_a(n)' do 
+        before do 
+            @game = Game.new([ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ])
+        end
+
+        it 'matches the expected state after 3 turns' do 
+            expect(@game.to_input_format_for_iterations_a(3)).to eq ({ 
+                0 => [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ], 
+                1 => [ [0,0,0,0,0,0], [0,0,1,1,0,0], [0,0,1,1,0,0], [0,0,0,1,0,0] ], 
+                2 => [ [0,0,0,0,0,0], [0,0,1,1,0,0], [0,0,0,0,1,0], [0,0,1,1,0,0] ], 
+                3 => [ [0,0,0,0,0,0], [0,0,0,1,0,0], [0,0,0,0,1,0], [0,0,0,1,0,0] ] 
+            })
         end
     end
 

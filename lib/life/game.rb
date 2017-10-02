@@ -29,6 +29,16 @@ class Game
         output
     end
 
+    def to_input_format_for_iterations_a(n)
+        output = {}
+        output[0] = to_input_format_a 
+        n.times do |i|
+            play_turn
+            output[i+1] = to_input_format_a 
+        end
+        output
+    end
+
     def alive_cell_coordinates
         # Returns [x, y] pairs for cells that are alive. This is convenient as input to an external UI.
         output = []
