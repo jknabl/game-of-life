@@ -71,7 +71,6 @@ describe Game do
             end
 
             it 'matches expected state after 1 iteration' do 
-                # binding.pry
                 @game.play_turn
                 expect(@game.cell_at(0,1).alive?).to be true
                 expect(@game.cell_at(1,1).alive?).to be true
@@ -83,7 +82,51 @@ describe Game do
             end
         end
 
-        
+        describe 'an asymmetric pattern that terminates after 5 iterations' do 
+            before do 
+                @game = Game.new([ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ])
+            end
+
+            it 'matches expected state after 1 turn' do 
+                expect(Game.test_game(
+                    [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ], 
+                    1, 
+                    [ [0,0,0,0,0,0], [0,0,1,1,0,0], [0,0,1,1,0,0], [0,0,0,1,0,0] ]
+                )).to be true
+            end
+
+            it 'matches expected state after 2 turns' do 
+                expect(Game.test_game(
+                    [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ],
+                    2, 
+                    [ [0,0,0,0,0,0], [0,0,1,1,0,0], [0,0,0,0,1,0], [0,0,1,1,0,0] ]
+                )).to be true
+            end
+
+            it 'matches the expected state after 3 turns' do 
+                expect(Game.test_game(
+                    [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ], 
+                    3, 
+                    [ [0,0,0,0,0,0], [0,0,0,1,0,0], [0,0,0,0,1,0], [0,0,0,1,0,0] ]
+                )).to be true
+            end
+
+            it 'matches the expected state after 4 turns' do 
+                expect(Game.test_game(
+                    [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ], 
+                    4, 
+                    [ [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,1,1,0], [0,0,0,0,0,0] ]
+                )).to be true
+            end
+
+            it 'has an empty grid after 5 turns' do 
+                expect(Game.test_game(
+                    [ [0,0,0,0,0,0], [0,1,0,0,0,0], [0,0,1,1,1,0], [0,0,0,0,0,0] ], 
+                    5, 
+                    [ [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0] ]
+                ))
+            end
+        end
     end
 
     describe 'Game.test_game' do 

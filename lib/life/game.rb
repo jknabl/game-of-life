@@ -47,8 +47,8 @@ class Game
     end
 
     def cell_at(x, y)
-        return grid[(height - 1) - y][x] if ((x < (width)) && (y < (height)))
-        nil
+        return nil if (x < 0 || y < 0 || (x > (width - 1)) || (y > (height - 1)))
+        grid[(height - 1) - y][x] 
     end
 
     def height
@@ -72,9 +72,10 @@ class Game
 
     def grid_input_to_cells(grid_input)
         cell_output = Array.new(grid_input.length){ [] }
-        grid_input.each_with_index do |sub_array, i|
-            sub_array.each_with_index do |cell_value, j|
-                cell_output[i][j] = Cell.new((cell_value == 1), self, j, ((grid_input.first.length - 1) -  i))
+        y_axis_size = grid_input.length - 1
+        grid_input.each_with_index do |sub_array, y_pos|
+            sub_array.each_with_index do |cell_value, x_pos|
+                cell_output[y_pos][x_pos] = Cell.new((cell_value == 1), self, x_pos, (y_axis_size -  y_pos))
             end
         end
         cell_output

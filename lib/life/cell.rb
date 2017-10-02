@@ -26,12 +26,16 @@ class Cell
     
     def neighbors
         n = [
-            @game.cell_at((x + 1), y), 
+            @game.cell_at((x-1), (y-1)), 
+            @game.cell_at((x-1), y), 
+            @game.cell_at((x-1), (y+1)), 
+            @game.cell_at(x, (y-1)), 
             @game.cell_at(x, (y+1)), 
+            @game.cell_at((x+1), (y-1)), 
+            @game.cell_at((x+1), y), 
             @game.cell_at((x+1), (y+1))
         ]
-        n << edge_and_corner_neighbors
-        n.flatten.compact
+        n.compact
     end
 
     def alive_neighbors
@@ -72,43 +76,5 @@ class Cell
 
     def healthy?
         alive? && ([2,3].include? alive_neighbors.length)
-    end
-
-    def left_column_neighbors
-        if on_left_edge_of_grid? 
-            []
-        else
-            [
-                @game.cell_at((x-1), y),
-                @game.cell_at((x-1), (y+1))
-            ].compact
-        end
-    end
-
-    def bottom_row_neighbors
-        if on_bottom_edge_of_grid?
-            []
-        else
-            [
-                @game.cell_at(x, (y-1)), 
-                @game.cell_at(x+1, (y-1))
-            ].compact
-        end
-    end
-
-    def bottom_left_corner_neighbor
-        ((on_left_edge_of_grid? || on_bottom_edge_of_grid?)) ? [] : [@game.cell_at((x-1), (y-1))]
-    end
-
-    def edge_and_corner_neighbors
-        left_column_neighbors + bottom_row_neighbors + bottom_left_corner_neighbor
-    end
-
-    def on_left_edge_of_grid?
-        x == 0
-    end
-
-    def on_bottom_edge_of_grid?
-        y == 0
     end
 end
