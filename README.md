@@ -1,41 +1,247 @@
-# Life
+# Conway's Game of Life
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/life`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Description and Rules of the Game
 
-TODO: Delete this and the text above, and describe your gem
+This is a gemified version of Conway's Game of Life. The game is a zero-player game, meaning you simply start it and watch it go. 
 
-## Installation
+The game consists of a number of cells situated on an NxM grid. A cell must be in one of two states: alive or dead. On each turn, cells transition between alive and dead states according to the following rules: 
 
-Add this line to your application's Gemfile:
+* Any live cell with fewer than two live neighbours dies, as if caused by under­population.
+* Any live cell with two or three live neighbours lives on to the next generation.
+* Any live cell with more than three live neighbours dies, as if by over­population.
+* Any dead cell with exactly three live neighbours becomes a live cell, as if by
+reproduction.
 
-```ruby
-gem 'life'
+## Installing the downloaded gem
+
+This gem was developed and tested in a UNIX-like environment. To install on e.g. MacOSX or Linux, do:
+
+```
+1. cd path/to/life
+2. gem build life.gemspec
+3. gem install ./game-of-life-0.1.0.gem
+```
+### Verifying installation
+
+Once installed, you will be able to access game functionality from a ruby console: 
+
+```
+> irb 
+> require 'life'
+=> true
+
+> game = Game.new([[1,0],[0,0]])
+=> #<Game:0x007fc684a68ba8 @grid=[[#<Cell:0x007fc684a689a0 @x=0, @y=1, @game=#<Game:0x007fc684a68ba8 ...>, @alive=true>, #<Cell:0x007fc684a68950 @x=1, @y=1, @game=#<Game:0x007fc684a68ba8 ...>, @alive=false>], [#<Cell:0x007fc684a688b0 @x=0, @y=0, @game=#<Game:0x007fc684a68ba8 ...>, @alive=false>, #<Cell:0x007fc684a68838 @x=1, @y=0, @game=#<Game:0x007fc684a68ba8 ...>, @alive=false>]], @display_strategy=#<TerminalDisplayStrategy:0x007fc684a687e8 @game=#<Game:0x007fc684a68ba8 ...>, @grid=[[#<Cell:0x007fc684a689a0 @x=0, @y=1, @game=#<Game:0x007fc684a68ba8 ...>, @alive=true>, #<Cell:0x007fc684a68950 @x=1, @y=1, @game=#<Game:0x007fc684a68ba8 ...>, @alive=false>], [#<Cell:0x007fc684a688b0 @x=0, @y=0, @game=#<Game:0x007fc684a68ba8 ...>, @alive=false>, #<Cell:0x007fc684a68838 @x=1, @y=0, @game=#<Game:0x007fc684a68ba8 ...>, @alive=false>]]>>
+
+> game.display_grid
+
+o.
+..
+
+> Game.test_game([[1,0], [0,0]], 1, [[1,0], [0,0]])
+=> false
 ```
 
-And then execute:
+### Testing without a ruby console
 
-    $ bundle
+The gem includes a command-line script for testing the `Game.test_game` method. Use this method to test easily without having to navigate an irb console. 
 
-Or install it yourself as:
+The script is located at `./bin/test`; it takes three arguments: 
 
-    $ gem install life
+* *-s*: a string representing the starting array (e.g. `-s "[[1,0],[0,1]]"`)
+* *-n*: an integer representing the number of times to run the game (e.g. `-n 4`)
+* *-e*: a string representing an array representation of the expected end state of the game (e.g. `-e "[[1,0],[0,1]]"`) 
 
-## Usage
+The script prints `true` to the console if the starting array matches the expected output at the end of N iterations; it returns `false` otherwise.
 
-TODO: Write usage instructions here
+Here is an example of running the script: 
 
-## Development
+```
+> ruby bin/test -s "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]]" -n 4 -e "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,1]]"
+false
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+...and another: 
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```
+>ruby bin/test -s "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]]" -n 4 -e "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]]"
+true
+```
 
-## Contributing
+### Installing from github and including in a project
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/life.
+You can install the gem from github and include it in a project you are working on. This saves you the hassle of having to do a local install. 
+
+Simply require the following in your `Gemfile`: 
+
+`gem 'life', git: 'git@github.com:jknabl/game-of-life.git'`
+
+## Public interface
+
+There are just a few main methods you will need to use in order to test the gem. The examples below all assume that you have installed the gem as outlined above.
+
+### Testing for equality of expected output
+
+The `Game` class provides a class method that allows you to specify a start state, number of iterations, and expected end state. The method returns true if the start state transforms into the expected end state after N iterations. For example: 
+
+```
+> ruby bin/test -s "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]]" -n 4 -e "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,1]]"
+false
+
+>ruby bin/test -s "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]]" -n 4 -e "[[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]]"
+true
+```
+
+### Running a simulation within irb
+
+Within irb, you can run a simulation by instantiating a `Game` and calling `#play_turn` or `#play_turns(n)`. You can also run a simulation with any number of iterations and view the sequence of results by using `#play_turns_with_display(n)`. 
+
+To play a single turn and view the result, do: 
+
+```
+$ irb
+require 'life'
+game = Game.new([[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]])
+game.display_grid
+
+.....
+.....
+.ooo.
+.....
+.....
+
+game.play_turn
+
+.....
+..o..
+..o..
+..o..
+.....
+```
+
+To play multiple turns and view the result, do: 
 
 
-## License
+```
+$ irb 
+require 'life'
+game = Game.new([[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]])
+game.display_grid
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+.....
+.....
+.ooo.
+.....
+.....
 
+game.play_turns(3)
+game.display_grid
+
+.....
+..o..
+..o..
+..o..
+.....
+```
+
+To skip a couple steps and display a sequence of transitions as they happen, do: 
+
+```
+$ irb
+require 'life'
+game = Game.new([[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]])
+game.play_turns_with_display(3)
+
+.....
+.....
+.ooo.
+.....
+.....
+
+.....
+..o..
+..o..
+..o..
+.....
+
+.....
+.....
+.ooo.
+.....
+.....
+
+.....
+..o..
+..o..
+..o..
+.....
+```
+
+### Choosing a display strategy
+
+This implementation associates a 'display strategy' with each game instance. A display strategy is a unique implementation of outputting the results of a simulation. 
+
+There are two display strategies implemented out of the box: 
+
+* `TerminalDisplayStrategy`: prints output as text in sequence to the console. 
+* `FileDisplayStrategy`: prints output as a chronological log to a text file (default file is `game_of_life_output.txt` in the directory from which you ran irb/the script). 
+
+Here is an example of the default `TerminalDisplayStrategy`, which outputs to console: 
+
+```
+irb
+require 'life'
+game = Game.new([[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]])
+game.display_grid
+
+.....
+.....
+.ooo.
+.....
+.....
+```
+
+Here is an example of creating a game with the `FileDisplayStrategy`: 
+
+```
+$pwd 
+/Users/jknabl/Documents/code-projects/life
+
+irb
+require 'life'
+game = Game.new([[0,0,0,0,0], [0,0,0,0,0], [0,1,1,1,0], [0,0,0,0,0], [0,0,0,0,0]], FileDisplayStrategy)
+game.play_turns_with_display(3)
+exit
+
+$ pwd
+/Users/jknabl/Documents/code-projects/life
+
+$ cat game_of_life_output.txt
+Iteration 1:
+
+.....
+.....
+.ooo.
+.....
+.....
+
+---
+Iteration 2:
+
+.....
+..o..
+..o..
+..o..
+.....
+
+---
+Iteration 3:
+
+.....
+.....
+.ooo.
+.....
+.....
+
+---
+```

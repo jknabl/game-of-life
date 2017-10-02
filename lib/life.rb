@@ -7,5 +7,4 @@ require 'life/file_display_strategy'
 require 'pry'
 
 module Life
-
 end

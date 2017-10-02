@@ -2,10 +2,10 @@ class Game
     attr_reader :grid
     attr_writer :display_strategy
 
-    def initialize(grid, display_strategy=nil)
+    def initialize(grid, display_strategy=TerminalDisplayStrategy)
         validate_input_array(grid)
         @grid = grid_input_to_cells(grid)
-        @display_strategy = display_strategy || ::TerminalDisplayStrategy.new(self)
+        @display_strategy = display_strategy.new(self)
     end
 
     def display_grid
