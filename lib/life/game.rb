@@ -18,25 +18,18 @@ class Game
 
     def to_input_format_a
         # Returns a 2D array where each sub-array represents a row of values along the same y axis.
-        output = []
-        grid.each_with_index do |row, i|
-            output << []
-            row.each do |cell, j|
-                alive_value = cell.alive? ? 1 : 0
-                output[i] << alive_value
-            end
+        # output = []
+        grid.collect.with_index do |row, i|
+            row.collect{ |cell| cell.alive? ? 1 : 0 }
         end
-        output
     end
 
     def to_input_format_for_iterations_a(n)
-        output = {}
-        output[0] = to_input_format_a 
-        n.times do |i|
-            play_turn
-            output[i+1] = to_input_format_a 
+        (n+1).times.inject({}) do |accum, i|
+            play_turn unless i == 0
+            accum[i] = to_input_format_a
+            accum
         end
-        output
     end
 
     def alive_cell_coordinates
@@ -45,6 +38,10 @@ class Game
     end
 
     def play_turn
+        # Why not just iterate over each cell and kill/give life as encountered? Because modifying a 
+        # cell's alive value will affect how other cells calculate their own alive values. We need 
+        # to calculate aliveness based on a static snapshot of the board. So we have to collect and
+        # then operate in bulk. 
         alive_cells, dead_cells = [], []
         grid.flatten.each{ |cell| cell.next_state ? (alive_cells << cell) : (dead_cells << cell) }
         alive_cells.each{ |cell| cell.give_life }
