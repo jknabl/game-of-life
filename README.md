@@ -72,9 +72,9 @@ true
 
 You can install the gem from github and include it in a project you are working on. This saves you the hassle of having to do a local install. 
 
-Simply require the following in your `Gemfile`: 
+Simply add the following to your `Gemfile`: 
 
-`gem 'life', git: 'git@github.com:jknabl/game-of-life.git'`
+gem 'game-of-life', git: 'https://github.com/jknabl/game-of-life.git', require: 'life'
 
 ## Public interface
 
