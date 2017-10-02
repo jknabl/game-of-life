@@ -12,6 +12,10 @@ The game consists of a number of cells situated on an NxM grid. A cell must be i
 * Any dead cell with exactly three live neighbours becomes a live cell, as if by
 reproduction.
 
+## Structure of the code
+
+The code is structured according to rubygems conventions. Most of the interesting stuff -- including the `Game`, `Cell`, and display classes -- is in `lib/life`. There is also a test script located outside the lib directory, at `bin/test`. Instructions on testing are below.
+
 ## Installing the downloaded gem
 
 This gem was developed and tested in a UNIX-like environment, using ruby 2.3.1. 
